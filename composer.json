@@ -1,0 +1,28 @@
+{
+    "name": "esyede/bca-php",
+    "description": "Unofficial Integration Kit for bca.co.id",
+    "type": "library",
+    "require": {
+        "mashape/unirest-php": "^3.0",
+        "php": ">=7.0.0",
+        "ext-json": "*"
+    },
+    "license": "MIT",
+    "homepage": "https://github.com/esyede/bca-php",
+    "support": {
+        "issues": "https://github.com/esyede/bca-php/issues",
+        "source": "https://github.com/esyede/bca-php"
+    },
+    "authors": [
+        {
+            "name": "Esyede",
+            "email": "suyadi.1992@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Esyede\\BCA\\": "src/"
+        }
+    }
+}
