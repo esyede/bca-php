@@ -3,7 +3,6 @@
     "description": "Unofficial Integration Kit for bca.co.id",
     "type": "library",
     "require": {
-        "mashape/unirest-php": "^3.0",
         "php": ">=7.0.0",
         "ext-json": "*"
     },
