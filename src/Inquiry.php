@@ -45,15 +45,13 @@ class Inquiry
      */
     public function domestic($channelId, $credentialId, $receiverAccountNumber, $receiverBankCode)
     {
-        $request = $this->curl
-            ->withHeader('ChannelID', $channelId)
-            ->withHeader('CredentialID', $credentialId);
-
         $endpoint = $this->apiBaseUrl() . '/banking/corporates/transfers/v2/domestic/beneficiaries/banks/' .
             $receiverBankCode . '/accounts/' . $receiverAccountNumber;
 
-        $request = $this->curl->to($endpoint);
-
-        return $this->curl->to($endpoint)->get();
+        return $this->curl
+            ->withHeader('ChannelID', $channelId)
+            ->withHeader('CredentialID', $credentialId)
+            ->to($endpoint)
+            ->get();
     }
 }
