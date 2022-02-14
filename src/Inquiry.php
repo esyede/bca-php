@@ -52,6 +52,7 @@ class Inquiry
             ->withHeader('ChannelID', $channelId)
             ->withHeader('CredentialID', $credentialId)
             ->to($endpoint)
+            ->returnResponseObject()
             ->get();
     }
 }
