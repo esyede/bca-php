@@ -16,9 +16,9 @@ class Transfer
     /**
      * Konstruktor.
      *
-     * @param string $accessToken
-     * @param string $apiKey
-     * @param string $signature
+     * @param string $accessToken  Access token from OAuth2 request response
+     * @param string $apiKey       Api Key
+     * @param string $signature    Signature created from the first request
      */
     public function __construct($accessToken, $apiKey, $signature)
     {
@@ -35,16 +35,18 @@ class Transfer
     /**
      * Transfer ke sesama BCA.
      *
-     * @param string $trxId
-     * @param string $trxRefId
-     * @param string $senderAccountNumber
-     * @param string $receiverAccountNumber
-     * @param string $receiverBankCode
-     * @param string $receiverFullname
-     * @param int    $amount
-     * @param string $transferType
-     * @param string $remark1
-     * @param string $remark2
+     * @param string $trxId                 Transaction ID unique per 90 days (using UTC+07 Time Zone). Format: Number, Must be 8 in length.
+     * @param string $trxRefId              Sender’s transaction reference ID
+     * @param string $senderAccountNumber   Source of Fund Account Number
+     * @param string $receiverAccountNumber Account name to be credited (destination)
+     * @param string $receiverBankCode      Bank Code of account to be credited (destination)
+     * @param string $receiverFullname      Account name to be credited (destination)
+     * @param int    $amount                Transfer amount. Format: Float Number, 13.2
+     * @param string $transferType          Choose one: LLG or RTG
+     * @param string $receiverAccountType   Choose one: 1 = Personal, 2 = Corporate, 3 = Government
+     * @param string $receiverResidence     Choose one: 1 = Resident, 2 = Non Resident
+     * @param string $remark1               Transfer remark for receiver (optional)
+     * @param string $remark2               Transfer remark for receiver (optional)
      *
      * @return Curl
      */
@@ -57,6 +59,8 @@ class Transfer
         $receiverFullname,
         $amount,
         $transferType,
+        $receiverAccountType,
+        $receiverResidence,
         $remark1 = null,
         $remark2 = null
     ) {
@@ -89,12 +93,12 @@ class Transfer
     /**
      * Transfer ke bank lain.
      *
-     * @param string $corporateId
-     * @param string $senderAccountNumber
-     * @param string $trxId
-     * @param string $trxRefId
-     * @param int    $amount
-     * @param string $receiverAccountNumber
+     * @param string $corporateId            Your KlikBCA Bisnis Corporate ID
+     * @param string $senderAccountNumber    Source of Fund Account Number
+     * @param string $trxId                  Transcation ID unique per day (using UTC+07 Time Zone). Format: Number
+     * @param string $trxRefId               Sender’s transaction reference ID
+     * @param int    $amount                 Transfer amount. Format: Float Number, 13.2
+     * @param string $receiverAccountNumber  BCA Account number to be credited (Destination)
      *
      * @return Curl
      */
