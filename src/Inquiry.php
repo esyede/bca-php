@@ -16,10 +16,10 @@ class Inquiry
     /**
      * Konstruktor.
      *
-     * @param string $accessToken
-     * @param string $apiKey
-     * @param string $signature
-     * @param string $originDomain
+     * @param string $accessToken  Access token from OAuth2 request response
+     * @param string $apiKey       Api Key
+     * @param string $signature    Signature created from the first request
+     * @param string $originDomain Origin requester domain, ex: yourdomain.com
      */
     public function __construct($accessToken, $apiKey, $signature, $originDomain)
     {
@@ -36,10 +36,10 @@ class Inquiry
     /**
      * Ambi informasi akun bank penerima transfer.
      *
-     * @param string $channelId
-     * @param string $credentialId
-     * @param string $receiverAccountNumber
-     * @param string $receiverBankCode
+     * @param string $channelId             Channel Identification Number (Ex: 95051 for KlikBCA Bisnis)
+     * @param string $credentialId          Your Channel Identity (ex: Your KlikBCA Bisnis CorporateID)
+     * @param string $receiverAccountNumber Beneficiary (Receiver) Account Number
+     * @param string $receiverBankCode      Beneficiary (Receiver) Bank Code 
      *
      * @return Curl
      */
