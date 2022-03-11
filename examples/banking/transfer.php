@@ -1,14 +1,14 @@
 <?php
 
-require dirname(dirname(__DIR__)) . '/src/Credential.php';
-require dirname(dirname(__DIR__)) . '/src/Helper.php';
-require dirname(dirname(__DIR__)) . '/src/Token.php';
-require dirname(dirname(__DIR__)) . '/src/Banking.php';
+require dirname(dirname(__DIR__)) . '/src/Auth/Credential.php';
+require dirname(dirname(__DIR__)) . '/src/Auth/Helper.php';
+require dirname(dirname(__DIR__)) . '/src/Auth/Token.php';
+require dirname(dirname(__DIR__)) . '/src/Banking/Banking.php';
 
-use Esyede\BCA\Credential;
-use Esyede\BCA\Helper;
-use Esyede\BCA\Token;
-use Esyede\BCA\Banking;
+use Esyede\BCA\Auth\Credential;
+use Esyede\BCA\Auth\Helper;
+use Esyede\BCA\Auth\Token;
+use Esyede\BCA\Banking\Banking;
 
 /*
 |--------------------------------------------------------------------------
