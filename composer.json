@@ -3,7 +3,8 @@
     "description": "Unofficial Integration Kit for bca.co.id",
     "type": "library",
     "require": {
-        "php": ">=7.0.0",
+        "php": ">=5.6.0",
+        "ext-curl": "*",
         "ext-json": "*"
     },
     "license": "MIT",
@@ -16,6 +17,10 @@
         {
             "name": "Esyede",
             "email": "suyadi.1992@gmail.com"
+        },
+        {
+            "name": "Zeros Dev",
+            "email": "admin@zeros.co.id"
         }
     ],
     "minimum-stability": "dev",

@@ -1,5 +1,5 @@
 # bca-php
 
-Unofficial integration library for bca.co.id.
+Unofficial integration library for BCA Banking API.
 
-See `example/` folder for usage exaple.
+See `examples/` folder for usage exaple.
