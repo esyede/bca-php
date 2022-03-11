@@ -17,11 +17,11 @@ use Esyede\BCA\Banking\Banking;
 */
 
 $environment  = 'development'; // 'development' or 'production'
-$corporateId  = 'CORPORATE-ID-HERE';
-$apiKey       = 'API-KEY-HERE';
-$apiSecret    = 'API-SECRET-HERE';
-$clientId     = 'CLIENT-ID-HERE';
-$clientSecret = 'CLIENT-SECRET-HERE';
+$corporateId  = 'CORP_ID';
+$apiKey       = 'API_KEY';
+$apiSecret    = 'API_SECRET';
+$clientId     = 'CLIENT_ID';
+$clientSecret = 'CLIENT_SECRET';
 
 $credentials = new Credential(
     $environment,
