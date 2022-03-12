@@ -88,7 +88,7 @@ class Credential
     public function toArray()
     {
         return [
-            'environment' => $this->getApiKey(),
+            'environment' => $this->getEnvironment(),
             'base_endpoint' => $this->getBaseEndpoint(),
             'corporate_id' => $this->getCorporateId(),
             'api_key' => $this->getApiKey(),
