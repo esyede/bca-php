@@ -37,10 +37,8 @@ class Banking
             throw new BCAException('Maximum account for checking is 20 per request.');
         }
 
-        if (count($accountNumbers) > 0) {
-            $accountNumbers = implode(',', $accountNumbers);
-            $accountNumbers = urlencode($accountNumbers);
-        }
+        $accountNumbers = implode(',', $accountNumbers);
+        $accountNumbers = urlencode($accountNumbers);
 
         $corporateId = $this->request->getCredential()->getCorporateId();
         $endpoint = '/banking/v3/corporates/' . $corporateId . '/accounts/' . $accountNumbers;
