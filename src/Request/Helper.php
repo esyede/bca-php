@@ -30,7 +30,7 @@ class Helper
         $relativeURL = '/' . ltrim($relativeURL, '/');
         $hash = '';
 
-        if (! empty($payloads)) {
+        if (count($payloads) > 0) {
             ksort($payloads);
             $hash = json_encode($payloads);
         }
@@ -40,10 +40,8 @@ class Helper
 
         $timestamp = static::dateIso8601();
 
-        $data = $method . ':' . $relativeURL . ':' . $accessToken . ':' . $hash . ':' . $timestamp;
-        $apiSecret = $credentials->getApiSecret();
-
-        $signature = hash_hmac('sha256', $data, $apiSecret);
+        $stringToSign = $method . ':' . $relativeURL . ':' . $accessToken . ':' . $hash . ':' . $timestamp;
+        $signature = hash_hmac('sha256', $stringToSign, $credentials->getApiSecret());
 
         return $signature;
     }

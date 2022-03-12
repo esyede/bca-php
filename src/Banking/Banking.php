@@ -59,21 +59,16 @@ class Banking
      */
     public function getAccountStatements($accountNumber, $startDate, $endDate)
     {
-        $dateRange = ['StartDate' => $startDate, 'EndDate' => $endDate];
-
-        // Gak mau jalan kalo gak di sortir menurut alfabet
-        ksort($dateRange);
-
         $corporateId = $this->request->getCredential()->getCorporateId();
         $endpoint = '/banking/v3/corporates/' . $corporateId . '/accounts/' . $accountNumber . '/statements';
-        $endpoint .= '?' . http_build_query($dateRange);
+        $endpoint .= '?EndDate=' . $endDate . '&StartDate=' . $startDate;
 
         return $this->request->send('GET', $endpoint, []);
     }
 
 
     /**
-     * Transfer ke akun lain.
+     * Transfer to another account.
      *
      * @param int    $amount             Numeric, positive (ex: 100000)
      * @param string $fromAccountNumber  Sender's account number (ex: 12345678)

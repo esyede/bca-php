@@ -8,7 +8,6 @@ use Esyede\BCA\Request\Request;
 use Esyede\BCA\Request\Token;
 use Esyede\BCA\Exceptions\BCAException;
 
-
 class Inquiry
 {
     private $request;
@@ -23,7 +22,14 @@ class Inquiry
         $this->request = $request;
     }
 
-
+    /**
+     * Get inquiry info by company code and customer account number.
+     *
+     * @param string $companyCode
+     * @param string $customerAccountNumber
+     *
+     * @return \stdClass
+     */
     public function byCompanyCodeAndCustomerNumber($companyCode, $customerAccountNumber)
     {
         $endpoint = '/va/payments?CompanyCode=' . $companyCode . '&CustomerNumber=' . $customerAccountNumber;
@@ -31,7 +37,14 @@ class Inquiry
         return $this->request->send('GET', $endpoint, []);
     }
 
-
+    /**
+     * Get inquiry info by company code and request id (supplied by BCA).
+     *
+     * @param string $companyCode
+     * @param string $requestId
+     *
+     * @return \stdClass
+     */
     public function byCompanyCodeAndRequestId($companyCode, $requestId)
     {
         $endpoint = '/va/payments?CompanyCode=' . $companyCode . '&RequestID=' . $requestId;
