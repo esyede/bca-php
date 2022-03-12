@@ -12,7 +12,6 @@ use Esyede\BCA\Exceptions\BCAException;
 class Inquiry
 {
     private $request;
-    private $query;
 
     /**
      * Constructor.
