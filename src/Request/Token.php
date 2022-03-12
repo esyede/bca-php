@@ -1,6 +1,6 @@
 <?php
 
-namespace Esyede\BCA\Auth;
+namespace Esyede\BCA\Request;
 
 class Token
 {

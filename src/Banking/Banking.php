@@ -2,26 +2,24 @@
 
 namespace Esyede\BCA\Banking;
 
-use Esyede\BCA\Auth\Credential;
-use Esyede\BCA\Auth\Helper;
-use Esyede\BCA\Auth\Token;
+use Esyede\BCA\Request\Credential;
+use Esyede\BCA\Request\Helper;
+use Esyede\BCA\Request\Request;
+use Esyede\BCA\Request\Token;
 use Esyede\BCA\Exceptions\BCAException;
 
 class Banking
 {
-    private $credentials;
-    private $accessToken;
+    private $request;
 
     /**
      * Constructor.
      *
-     * @param Credential $credentials  Credential instance
-     * @param string     $accessToken  Access token
+     * @param Request $request Request instance
      */
-    public function __construct(Credential $credentials, $accessToken)
+    public function __construct(Request $request)
     {
-        $this->credentials = $credentials;
-        $this->accessToken = $accessToken;
+        $this->request = $request;
     }
 
     /**
@@ -44,10 +42,10 @@ class Banking
             $accountNumbers = urlencode($accountNumbers);
         }
 
-        $corporateId = $this->credentials->getCorporateId();
+        $corporateId = $this->request->getCredential()->getCorporateId();
         $endpoint = '/banking/v3/corporates/' . $corporateId . '/accounts/' . $accountNumbers;
 
-        return $this->request('GET', $endpoint, []);
+        return $this->request->send('GET', $endpoint, []);
     }
 
     /**
@@ -66,11 +64,11 @@ class Banking
         // Gak mau jalan kalo gak di sortir menurut alfabet
         ksort($dateRange);
 
-        $corporateId = $this->credentials->getCorporateId();
+        $corporateId = $this->request->getCredential()->getCorporateId();
         $endpoint = '/banking/v3/corporates/' . $corporateId . '/accounts/' . $accountNumber . '/statements';
         $endpoint .= '?' . http_build_query($dateRange);
 
-        return $this->request('GET', $endpoint, []);
+        return $this->request->send('GET', $endpoint, []);
     }
 
 
@@ -81,6 +79,7 @@ class Banking
      * @param string $fromAccountNumber  Sender's account number (ex: 12345678)
      * @param string $toAccountNumber    Receiver's account number (ex: 11223344)
      * @param string $numericTrxId       Numeric only (ex: 00000001)
+     * @param string $trxReferenceId     Numeric only (ex: 123)
      * @param string $remark1            Optional
      * @param string $remark2            Optional
      *
@@ -91,105 +90,24 @@ class Banking
         $fromAccountNumber,
         $toAccountNumber,
         $numericTrxId,
+        $trxReferenceId,
         $remark1 = 'N/A',
         $remark2 = 'N/A'
     ) {
         $endpoint = '/banking/corporates/transfers';
         $payloads = [
             'Amount' => $amount . '.00',
-            'BeneficiaryAccountNumber' => $toAccountNumber,
-            'CorporateID' => $this->credentials->getCorporateId(),
-            'SourceAccountNumber' => $fromAccountNumber,
+            'BeneficiaryAccountNumber' => strval($toAccountNumber),
+            'CorporateID' => strval($this->request->getCredential()->getCorporateId()),
+            'SourceAccountNumber' => strval($fromAccountNumber),
             'CurrencyCode' => 'IDR',
-            'TransactionID' => $numericTrxId,
+            'TransactionID' => strval($numericTrxId),
             'TransactionDate' => Helper::dateTrx(),
-            'ReferenceID' => '123',
-            'Remark1' => $remark1,
-            'Remark2' => $remark2,
+            'ReferenceID' => strval($trxReferenceId),
+            'Remark1' => strval($remark1),
+            'Remark2' => strval($remark2),
         ];
 
-        return $this->request('POST', $endpoint, $payloads);
-    }
-
-
-    /**
-     * Send the request.
-     *
-     * @param string $method    Request method (GET or POST)
-     * @param string $endpoint  Relative endpoint URL (ex: '/banking/corporates/transfers')
-     * @param array  $payloads  Associative array of request bodies
-     *
-     * @return \stdClass
-     */
-    private function request($method, $endpoint, array $payloads = [])
-    {
-        if (count($payloads) > 0) {
-            ksort($payloads);
-        }
-
-        $method = strtoupper($method);
-        $signature = Helper::signature(
-            $this->credentials,
-            $method,
-            $endpoint,
-            $this->accessToken,
-            $payloads
-        );
-
-        $timestamp = Helper::dateIso8601();
-        $headers = [
-            'Authorization: Bearer ' . $this->accessToken,
-            'Content-Type: application/json',
-            'Origin: localhost',
-            'X-BCA-Key: ' . $this->credentials->getApiKey(),
-            'X-BCA-Signature: ' . $signature,
-            'X-BCA-Timestamp: ' . $timestamp
-        ];
-
-        $endpoint = $this->credentials->getBaseEndpoint() . $endpoint;
-
-        $ch = curl_init();
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $endpoint,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER => false,
-            CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_FAILONERROR => false,
-        ]);
-
-        if ('POST' === $method) {
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payloads));
-        }
-
-        $responses = curl_exec($ch);
-        $errors = curl_error($ch);
-
-        curl_close($ch);
-
-        $decoded = json_decode($responses);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            $decoded = false;
-            $errors = 'Unable to decode json response.';
-        }
-
-        $results = [
-            'endpoint' => $endpoint,
-            'requests' => [
-                'headers' => $headers,
-                'payloads' => $payloads,
-                'credentials' => $this->credentials->toArray(),
-                'access_token' => $this->accessToken,
-                'signature' => $signature,
-            ],
-            'responses' => [
-                'data' => $decoded,
-                'errors' => $errors,
-            ],
-        ];
-
-        // Force to \stdClass object
-        return json_decode(json_encode($results));
+        return $this->request->send('POST', $endpoint, $payloads);
     }
 }

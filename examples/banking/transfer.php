@@ -1,13 +1,15 @@
 <?php
 
-require dirname(dirname(__DIR__)) . '/src/Auth/Credential.php';
-require dirname(dirname(__DIR__)) . '/src/Auth/Helper.php';
-require dirname(dirname(__DIR__)) . '/src/Auth/Token.php';
+require dirname(dirname(__DIR__)) . '/src/Request/Credential.php';
+require dirname(dirname(__DIR__)) . '/src/Request/Helper.php';
+require dirname(dirname(__DIR__)) . '/src/Request/Request.php';
+require dirname(dirname(__DIR__)) . '/src/Request/Token.php';
 require dirname(dirname(__DIR__)) . '/src/Banking/Banking.php';
 
-use Esyede\BCA\Auth\Credential;
-use Esyede\BCA\Auth\Helper;
-use Esyede\BCA\Auth\Token;
+use Esyede\BCA\Request\Credential;
+use Esyede\BCA\Request\Helper;
+use Esyede\BCA\Request\Request;
+use Esyede\BCA\Request\Token;
 use Esyede\BCA\Banking\Banking;
 
 /*
@@ -16,12 +18,7 @@ use Esyede\BCA\Banking\Banking;
 |--------------------------------------------------------------------------
 */
 
-$environment  = 'development'; // 'development' or 'production'
-$corporateId  = 'CORP_ID';
-$apiKey       = 'API_KEY';
-$apiSecret    = 'API_SECRET';
-$clientId     = 'CLIENT_ID';
-$clientSecret = 'CLIENT_SECRET';
+require dirname(__DIR__) . '/config.php';
 
 $credentials = new Credential(
     $environment,
@@ -43,12 +40,15 @@ $token = (new Token($credentials))->grant();
 $accessToken = $token->responses->data->access_token;
 
 
+$request =  new Request($credentials, $accessToken);
+
+
 $amount = 100000;
-$fromAccountNumber = '0611104625';
-$toAccountNumber = '0201245681';
+$fromAccountNumber = '0613005908';
+$toAccountNumber = '0613005878';
 $numericTrxId = '00000001';
-$remark1 = 'Transfer test';
-$remark2 = 'For testing only';
+$remark1 = 'Foo';
+$remark2 = 'Bar';
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ $remark2 = 'For testing only';
 |--------------------------------------------------------------------------
 */
 
-$banking = new Banking($credentials, $accessToken);
+$banking = new Banking($request);
 $transfer = $banking->transfer(
     $amount,
     $fromAccountNumber,

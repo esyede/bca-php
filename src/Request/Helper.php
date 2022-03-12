@@ -1,6 +1,6 @@
 <?php
 
-namespace Esyede\BCA\Auth;
+namespace Esyede\BCA\Request;
 
 use DateTime;
 use DateTimeZone;
@@ -12,7 +12,7 @@ class Helper
      * Create signature
      *
      * @param Credential $credentials  Credential instance
-     * @param string     $httpMethod   HTTP request method (GET or POST)
+     * @param string     $method       HTTP request method (GET or POST)
      * @param string     $relativeURL  Relative endpoint URL (ex: '/banking/corporates/transfers')
      * @param string     $accessToken  Access token from first request
      * @param array      $payloads     Associative array of request bodies
@@ -21,12 +21,12 @@ class Helper
      */
     public static function signature(
         Credential $credentials,
-        $httpMethod,
+        $method,
         $relativeURL,
         $accessToken,
         array $payloads = []
     ) {
-        $httpMethod = strtoupper($httpMethod);
+        $method = strtoupper($method);
         $relativeURL = '/' . ltrim($relativeURL, '/');
         $hash = '';
 
@@ -40,7 +40,7 @@ class Helper
 
         $timestamp = static::dateIso8601();
 
-        $data = $httpMethod . ':' . $relativeURL . ':' . $accessToken . ':' . $hash . ':' . $timestamp;
+        $data = $method . ':' . $relativeURL . ':' . $accessToken . ':' . $hash . ':' . $timestamp;
         $apiSecret = $credentials->getApiSecret();
 
         $signature = hash_hmac('sha256', $data, $apiSecret);

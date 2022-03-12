@@ -4,19 +4,14 @@ require dirname(dirname(__DIR__)) . '/src/Request/Credential.php';
 require dirname(dirname(__DIR__)) . '/src/Request/Helper.php';
 require dirname(dirname(__DIR__)) . '/src/Request/Request.php';
 require dirname(dirname(__DIR__)) . '/src/Request/Token.php';
-require dirname(dirname(__DIR__)) . '/src/Banking/Banking.php';
+require dirname(dirname(__DIR__)) . '/src/VA/Inquiry.php';
 
 use Esyede\BCA\Request\Credential;
 use Esyede\BCA\Request\Helper;
 use Esyede\BCA\Request\Request;
 use Esyede\BCA\Request\Token;
-use Esyede\BCA\Banking\Banking;
+use Esyede\BCA\VA\Inquiry;
 
-/*
-|--------------------------------------------------------------------------
-| Credentials Supplied By BCA
-|--------------------------------------------------------------------------
-*/
 
 require dirname(__DIR__) . '/config.php';
 
@@ -40,23 +35,20 @@ $token = (new Token($credentials))->grant();
 $accessToken = $token->responses->data->access_token;
 
 
+
 $request =  new Request($credentials, $accessToken);
 
 /*
 |--------------------------------------------------------------------------
-| Get Actual Account Statements
+| Get Inquiry (By Request ID & By By Customer Number)
 |--------------------------------------------------------------------------
 */
 
-$banking = new Banking($request);
+$inquiry = new Inquiry($request);
 
-$startDate = '2016-01-29';
-$endDate = '2017-01-30';
 
-$statements = $banking->getAccountStatements(
-    '0613005908',
-    $startDate,
-    $endDate
-);
+$byRequestId = $inquiry->byCompanyCodeAndRequestId(80888, 1234567890);
 
-echo json_encode(compact('token', 'statements'));
+$byCustomerNumber = $inquiry->byCompanyCodeAndCustomerNumber(80888, 8161964775);
+
+echo json_encode(compact('byCustomerNumber', 'byRequestId'));
