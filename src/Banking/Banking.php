@@ -32,11 +32,6 @@ class Banking
     public function getBalanceInfo(array $accountNumbers = [])
     {
         $accountNumbers = array_values($accountNumbers);
-
-        if (count($accountNumbers) > 20) {
-            throw new BCAException('Maximum account for checking is 20 per request.');
-        }
-
         $accountNumbers = implode(',', $accountNumbers);
         $accountNumbers = urlencode($accountNumbers);
 
