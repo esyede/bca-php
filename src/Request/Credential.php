@@ -24,6 +24,7 @@ class Credential
      * @param string $apiSecret     Secret key (supplied by BCA)
      * @param string $clientId      Client ID (supplied by BCA)
      * @param string $clientSecret  Client secret (supplied by BCA)
+     * @param string $originDomain  Server's domain name, ex: 'google.com'
      */
     public function __construct(
         $environment,
@@ -32,7 +33,7 @@ class Credential
         $apiSecret,
         $clientId,
         $clientSecret,
-        $originDomain = null
+        $originDomain
     ) {
         $environment = strtolower(strval($environment));
 
@@ -50,7 +51,7 @@ class Credential
         $this->apiSecret = $apiSecret;
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
-        $this->originDomain = is_null($originDomain) ? Helper::getDomain() : $originDomain;
+        $this->originDomain = $originDomain;
     }
 
     /*

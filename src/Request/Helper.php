@@ -72,20 +72,4 @@ class Helper
     {
         return (new DateTime($time, new DateTimeZone($timezone)))->format('Y-m-d');
     }
-
-    /**
-     * Get server's domain name.
-     *
-     * @param string $fallback
-     *
-     * @return string
-     */
-    public static function getDomain($fallback = 'localhost')
-    {
-        if (! isset($_SERVER['REQUEST_URI'])) {
-            return $fallback;
-        }
-
-        return parse_url($_SERVER['REQUEST_URI'], PHP_URL_HOST);
-    }
 }
