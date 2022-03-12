@@ -37,7 +37,7 @@ class Banking
             throw new BCAException('Maximum account for checking is 20 per request.');
         }
 
-        if (count($accountNumbers) > 1) {
+        if (count($accountNumbers) > 0) {
             $accountNumbers = implode(',', $accountNumbers);
             $accountNumbers = urlencode($accountNumbers);
         }
