@@ -40,6 +40,32 @@ class Request
     }
 
     /**
+     * Send a GET request.
+     *
+     * @param string $endpoint
+     * @param array  $payloads
+     *
+     * @return \stdClass
+     */
+    public function get($endpoint, array $payloads = [])
+    {
+        return $this->send('GET', $endpoint, $payloads);
+    }
+
+    /**
+     * Send a POST request.
+     *
+     * @param string $endpoint
+     * @param array  $payloads
+     *
+     * @return \stdClass
+     */
+    public function post($endpoint, array $payloads = [])
+    {
+        return $this->send('POST', $endpoint, $payloads);
+    }
+
+    /**
      * Send the request.
      *
      * @param string $method    Request method (GET or POST)
@@ -48,7 +74,7 @@ class Request
      *
      * @return \stdClass
      */
-    public function send($method, $endpoint, array $payloads = [])
+    private function send($method, $endpoint, array $payloads = [])
     {
         if (count($payloads) > 0) {
             ksort($payloads);
@@ -63,14 +89,13 @@ class Request
             $payloads
         );
 
-        $timestamp = Helper::dateIso8601();
         $headers = [
             'Authorization: Bearer ' . $this->getAccessToken(),
             'Content-Type: application/json',
-            'Origin: localhost',
+            'Origin: ' . $this->getCredential()->getOriginDomain(),
             'X-BCA-Key: ' . $this->getCredential()->getApiKey(),
             'X-BCA-Signature: ' . $signature,
-            'X-BCA-Timestamp: ' . $timestamp
+            'X-BCA-Timestamp: ' . Helper::dateIso8601(),
         ];
 
         $endpoint = $this->getCredential()->getBaseEndpoint() . $endpoint;

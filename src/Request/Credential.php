@@ -13,6 +13,7 @@ class Credential
     private $apiSecret;
     private $clientId;
     private $clientSecret;
+    private $originDomain;
 
     /**
      * Constructor.
@@ -24,8 +25,15 @@ class Credential
      * @param string $clientId      Client ID (supplied by BCA)
      * @param string $clientSecret  Client secret (supplied by BCA)
      */
-    public function __construct($environment, $corporateId, $apiKey, $apiSecret, $clientId, $clientSecret)
-    {
+    public function __construct(
+        $environment,
+        $corporateId,
+        $apiKey,
+        $apiSecret,
+        $clientId,
+        $clientSecret,
+        $originDomain = null
+    ) {
         $environment = strtolower(strval($environment));
 
         if ($environment !== 'development' && $environment !== 'production') {
@@ -42,6 +50,7 @@ class Credential
         $this->apiSecret = $apiSecret;
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
+        $this->originDomain = is_null($originDomain) ? Helper::getDomain() : $originDomain;
     }
 
     /*
@@ -85,6 +94,11 @@ class Credential
         return $this->clientSecret;
     }
 
+    public function getOriginDomain()
+    {
+        return $this->originDomain;
+    }
+
     public function toArray()
     {
         return [
@@ -95,6 +109,7 @@ class Credential
             'api_secret' => $this->getApiSecret(),
             'client_id' => $this->getClientId(),
             'client_secret' => $this->getClientSecret(),
+            'origin_domain' => $this->getOriginDomain(),
         ];
     }
 
