@@ -25,22 +25,16 @@ class Banking
     /**
      * Get account's balance info.
      *
-     * @param array $accountNumbers  Numeric, max. 20 characters (ex: 1234567890)
+     * @param array $accountNumbers  Numeric string (ex: 1234567890)
      *
      * @return \stdClass
      */
-    public function getBalanceInfo(array $accountNumbers = [])
+    public function getBalanceInfo($accountNumbers)
     {
+        $accountNumbers = is_array($accountNumbers) ? $accountNumbers : func_get_args();
         $accountNumbers = array_values($accountNumbers);
-
-        if (count($accountNumbers) > 20) {
-            throw new BCAException('Maximum account for checking is 20 per request.');
-        }
-
-        if (count($accountNumbers) > 0) {
-            $accountNumbers = implode(',', $accountNumbers);
-            $accountNumbers = urlencode($accountNumbers);
-        }
+        $accountNumbers = implode(',', $accountNumbers);
+        $accountNumbers = urlencode($accountNumbers);
 
         $corporateId = $this->request->getCredential()->getCorporateId();
         $endpoint = '/banking/v3/corporates/' . $corporateId . '/accounts/' . $accountNumbers;
