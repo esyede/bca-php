@@ -45,11 +45,12 @@ $request =  new Request($credentials, $accessToken);
 
 
 $amount = 100000;
-$fromAccountNumber = '0613005908';
+$fromAccountNumber = '0613005827';
 $toAccountNumber = '0613005878';
-$numericTrxId = '00000001';
-$remark1 = 'Foo';
-$remark2 = 'Bar';
+$numericTrxId = rand(11111111, 99999999);
+$trxReferenceId = '20000001';
+$remark1 = 'NIHIL ddde';
+$remark2 = 'NIHIL frefe';
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +64,7 @@ $transfer = $banking->transfer(
     $fromAccountNumber,
     $toAccountNumber,
     $numericTrxId,
+    $trxReferenceId,
     $remark1,
     $remark2
 );

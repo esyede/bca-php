@@ -69,8 +69,8 @@ class Banking
      * @param string $toAccountNumber    Receiver's account number (ex: 11223344)
      * @param string $numericTrxId       Numeric only (ex: 00000001)
      * @param string $trxReferenceId     Numeric only (ex: 123)
-     * @param string $remark1            Optional
-     * @param string $remark2            Optional
+     * @param string $remark1            Remark 1 (used for additional transaction note)
+     * @param string $remark2            Remark 2 (used for additional transaction note)
      *
      * @return \stdClass
      */
@@ -80,8 +80,8 @@ class Banking
         $toAccountNumber,
         $numericTrxId,
         $trxReferenceId,
-        $remark1 = 'N/A',
-        $remark2 = 'N/A'
+        $remark1,
+        $remark2
     ) {
         $endpoint = '/banking/corporates/transfers';
         $payloads = [
