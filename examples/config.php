@@ -12,3 +12,4 @@ $apiKey       = 'API_KEY';
 $apiSecret    = 'API_SECRET';
 $clientId     = 'CLIENT_ID';
 $clientSecret = 'CLIENT_SECRET';
+$originDomain = 'localhost'; // change it to your domain, ex: google.com

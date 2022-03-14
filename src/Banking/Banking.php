@@ -39,7 +39,7 @@ class Banking
         $corporateId = $this->request->getCredential()->getCorporateId();
         $endpoint = '/banking/v3/corporates/' . $corporateId . '/accounts/' . $accountNumbers;
 
-        return $this->request->send('GET', $endpoint, []);
+        return $this->request->get($endpoint, []);
     }
 
     /**
@@ -57,7 +57,7 @@ class Banking
         $endpoint = '/banking/v3/corporates/' . $corporateId . '/accounts/' . $accountNumber . '/statements';
         $endpoint .= '?EndDate=' . $endDate . '&StartDate=' . $startDate;
 
-        return $this->request->send('GET', $endpoint, []);
+        return $this->request->get($endpoint, []);
     }
 
 
@@ -97,6 +97,6 @@ class Banking
             'Remark2' => strval($remark2),
         ];
 
-        return $this->request->send('POST', $endpoint, $payloads);
+        return $this->request->post($endpoint, $payloads);
     }
 }

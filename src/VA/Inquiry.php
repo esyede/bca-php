@@ -34,7 +34,7 @@ class Inquiry
     {
         $endpoint = '/va/payments?CompanyCode=' . $companyCode . '&CustomerNumber=' . $customerAccountNumber;
 
-        return $this->request->send('GET', $endpoint, []);
+        return $this->request->get($endpoint, []);
     }
 
     /**
@@ -49,6 +49,6 @@ class Inquiry
     {
         $endpoint = '/va/payments?CompanyCode=' . $companyCode . '&RequestID=' . $requestId;
 
-        return $this->request->send('GET', $endpoint, []);
+        return $this->request->get($endpoint, []);
     }
 }

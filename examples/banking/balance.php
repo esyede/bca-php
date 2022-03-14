@@ -20,7 +20,8 @@ $credentials = new Credential(
     $apiKey,
     $apiSecret,
     $clientId,
-    $clientSecret
+    $clientSecret,
+    $originDomain
 );
 
 /*
