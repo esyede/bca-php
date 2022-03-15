@@ -6,6 +6,7 @@ class Request
 {
     private $credentials;
     private $accessToken;
+    private $dateIso8601;
 
     /**
      * Constructor.
@@ -17,6 +18,7 @@ class Request
     {
         $this->credentials = $credentials;
         $this->accessToken = $accessToken;
+        $this->dateIso8601 = Helper::dateIso8601();
     }
 
     /**
@@ -37,6 +39,16 @@ class Request
     public function getAccessToken()
     {
         return $this->accessToken;
+    }
+
+    /**
+     * Get IS08601 date.
+     *
+     * @return string
+     */
+    public function getDateIso8601()
+    {
+        return $this->dateIso8601;
     }
 
     /**
@@ -86,6 +98,7 @@ class Request
             $method,
             $endpoint,
             $this->getAccessToken(),
+            $this->getDateIso8601(),
             $payloads
         );
 
@@ -95,7 +108,7 @@ class Request
             'Origin: ' . $this->getCredential()->getOriginDomain(),
             'X-BCA-Key: ' . $this->getCredential()->getApiKey(),
             'X-BCA-Signature: ' . $signature,
-            'X-BCA-Timestamp: ' . Helper::dateIso8601(),
+            'X-BCA-Timestamp: ' . $this->getDateIso8601(),
         ];
 
         $endpoint = $this->getCredential()->getBaseEndpoint() . $endpoint;
