@@ -15,6 +15,7 @@ class Helper
      * @param string     $method       HTTP request method (GET or POST)
      * @param string     $relativeURL  Relative endpoint URL (ex: '/banking/corporates/transfers')
      * @param string     $accessToken  Access token from first request
+     * @param string     $dateIso8601  ISO8601 date string for timestamp
      * @param array      $payloads     Associative array of request bodies
      *
      * @return string
@@ -24,6 +25,7 @@ class Helper
         $method,
         $relativeURL,
         $accessToken,
+        $dateIso8601,
         array $payloads = []
     ) {
         $method = strtoupper($method);
@@ -43,9 +45,7 @@ class Helper
         $hash = hash('sha256', $hash);
         $hash = strtolower($hash);
 
-        $timestamp = static::dateIso8601();
-
-        $stringToSign = $method . ':' . $relativeURL . ':' . $accessToken . ':' . $hash . ':' . $timestamp;
+        $stringToSign = $method . ':' . $relativeURL . ':' . $accessToken . ':' . $hash . ':' . $dateIso8601;
         $signature = hash_hmac('sha256', $stringToSign, $credentials->getApiSecret());
 
         return $signature;

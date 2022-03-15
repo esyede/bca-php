@@ -49,8 +49,8 @@ $fromAccountNumber = '0613005827';
 $toAccountNumber = '0613005878';
 $numericTrxId = rand(11111111, 99999999);
 $trxReferenceId = '20000001';
-$remark1 = 'NIHIL ddde';
-$remark2 = 'NIHIL frefe';
+$remark1 = 'Note one';
+$remark2 = 'Note two';
 
 /*
 |--------------------------------------------------------------------------
