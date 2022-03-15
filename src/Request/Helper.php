@@ -34,12 +34,8 @@ class Helper
 
         if (count($payloads) > 0) {
             ksort($payloads);
-
-            foreach ($payloads as $key => $value) {
-                $payloads[$key] = preg_replace('/[[:blank:]]+/', '', $value);
-            }
-
             $hash = json_encode($payloads);
+            $hash = preg_replace('/[[:blank:]]+/', '', $hash);
         }
 
         $hash = hash('sha256', $hash);
