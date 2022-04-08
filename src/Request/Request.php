@@ -151,6 +151,7 @@ class Request
             'responses' => [
                 'data' => $decoded,
                 'errors' => $errors,
+                'raw' => $responses
             ],
         ];
 
