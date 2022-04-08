@@ -68,7 +68,8 @@ class Token
             ],
             'responses' => [
                 'data' => $decoded,
-                'errors' => $errors
+                'errors' => $errors,
+                'raw' => $responses
             ],
         ];
 
