@@ -52,6 +52,12 @@ class Token
 
         curl_close($ch);
 
+        $respon = '';
+
+        $responses = preg_match("/^{.+}/m", $responses, $respon);
+
+        $decoded = json_decode($respon[0]);
+
         $decoded = json_decode($responses);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
