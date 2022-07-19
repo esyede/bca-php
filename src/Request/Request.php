@@ -59,9 +59,9 @@ class Request
      *
      * @return \stdClass
      */
-    public function get($endpoint, array $payloads = [])
+    public function get($endpoint, array $payloads = [], $is_balance_info = false)
     {
-        return $this->send('GET', $endpoint, $payloads);
+        return $this->send('GET', $endpoint, $payloads, $is_balance_info);
     }
 
     /**
@@ -86,8 +86,14 @@ class Request
      *
      * @return \stdClass
      */
-    private function send($method, $endpoint, array $payloads = [])
+    private function send($method, $endpoint, array $payloads = [], $is_balance_info = false)
     {
+        if ($is_balance_info) {
+            $payloads_signature = [];
+        } else {
+            $payloads_signature = $payloads;
+        }
+
         if (count($payloads) > 0) {
             ksort($payloads);
         }
@@ -99,7 +105,7 @@ class Request
             $endpoint,
             $this->getAccessToken(),
             $this->getDateIso8601(),
-            $payloads
+            $payloads_signature
         );
 
         $headers = [
